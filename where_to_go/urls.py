@@ -9,4 +9,5 @@ from where_to_go import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.show_start_page),
+    path('place/<int:id>/', views.get_place)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
