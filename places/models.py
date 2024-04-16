@@ -8,6 +8,9 @@ class Place(models.Model):
     lng = models.DecimalField(max_digits=18, decimal_places=15)
     lat = models.DecimalField(max_digits=18, decimal_places=15)
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.title
 
@@ -18,6 +21,9 @@ class Image(models.Model):
         Place, related_name='images',
         on_delete=models.CASCADE)
     number = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ['number']
 
     def __str__(self):
         return f'{self.number} {self.place.title}'
