@@ -7,6 +7,20 @@
 ## Technologies and tools
  - Python 3.9.10
 
+## Demo
+ - Web-site address:
+ ```
+ https://jacobkl.pythonanywhere.com/
+ ```
+ - Admin panel address. Username and password:
+ ```
+ https://jacobkl.pythonanywhere.com/admin
+ ```
+ ```
+ admin
+ ```
+
+
 ## Setup
  Clone this repository and go to the project folder:
    ```bash
@@ -27,12 +41,19 @@
    source venv/Scripts/activate
    ```
 ## Requirements
- Install dependencies:
+   Update the Python package manager to the latest version:
    ```
    python -m pip install --upgrade pip
    ```
+   Install dependencies:
    ```
    pip install -r requirements.txt
+   ``` 
+   Create an .env file and populate it with data:
+   ```
+   SECRET_KEY=django-insecure-=)s$o(p)(enter your key)
+   DEBUG=True or False
+   ALLOWED_HOSTS=Your website's domain or/and IP address
    ```
 
 ## Run
