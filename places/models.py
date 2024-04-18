@@ -25,7 +25,7 @@ class Image(models.Model):
     number = models.PositiveIntegerField()
 
     class Meta:
-        ordering = ['number']
+        ordering = ['place', 'number']
 
     def __str__(self):
         return f'{self.number} {self.place.title}'
