@@ -51,8 +51,8 @@
    ``` 
    Create an .env file and populate it with data:
    ```
-   SECRET_KEY=django-insecure-=)s$o(p) (enter your key)
-   DEBUG=True or False
+   SECRET_KEY=django-insecure-=)s$o(p) (Enter your project secret key)
+   DEBUG=True or False (Debug mode)
    ALLOWED_HOSTS=127.0.0.1,localhost (Your website's domain or/and IP address)
    ```
 
@@ -66,7 +66,7 @@
    python manage.py runserver
    ```
 
-   If you want to create new objects in the database, you can use a script that uses data from [GitHub](https://github.com/) and takes two parameters: username/project name and folder name in the project. This script collects the location data from the json files folder and creates new objects in the database.
+   If you want to create new objects in the database, you can use a script that uses data from [GitHub](https://github.com/) and takes two parameters: `username/project_name` and `folder_name` in the project. This script collects the location data from the json files folder and creates new objects in the database.
    
    ```
    python manage.py load_place username/project_name folder_name
