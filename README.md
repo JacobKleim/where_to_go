@@ -57,10 +57,11 @@
    ```
 
 ## Run
-   If necessary, make migrations and start the project:
+   If necessary, make migrations:
    ```
    python manage.py migrate
    ```
+   Start the project:
    ```
    python manage.py runserver
    ```
