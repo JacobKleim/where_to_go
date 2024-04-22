@@ -6,9 +6,13 @@ from .models import Place, Image
 from adminsortable2.admin import SortableAdminMixin, SortableStackedInline
 
 
+MAX_WIDTH = 200
+MAX_HEIGHT = 200
+
+
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    pass
+    autocomplete_fields = ['place']
 
 
 class ImageInline(SortableStackedInline):
@@ -18,13 +22,13 @@ class ImageInline(SortableStackedInline):
     fields = ['place', 'image', 'get_preview', 'number']
 
     def get_preview(self, obj):
-        try:
+        if obj.image:
             return format_html(
-                '<img src="{}" style="max-width: 200px; max-height: 200px;" />'
-                .format(obj.image.url))
-        except Exception as e:
-            return format_html(
-                '<span style="color:red;">Error: {}</span>'.format(str(e)))
+                '<img src="{}" style="max-width: {}px; max-height: {}px;" />',
+                obj.image.url, MAX_WIDTH, MAX_HEIGHT)
+
+        return format_html(
+            '<span style="color:red;">Error: Image not found</span>')
 
 
 @admin.register(Place)

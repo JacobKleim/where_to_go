@@ -12,10 +12,11 @@
  ```
  https://jacobkl.pythonanywhere.com/
  ```
- - Admin panel address. Username and password:
+ - Admin panel address:
  ```
  https://jacobkl.pythonanywhere.com/admin
  ```
+ - Username and password:
  ```
  admin
  ```
@@ -66,10 +67,10 @@
    python manage.py runserver
    ```
 
-   If you want to create new objects in the database, you can use a script that uses data from [GitHub](https://github.com/) and takes two parameters: `username/project_name` and `folder_name` in the project. This script collects the location data from the json files folder and creates new objects in the database.
+   If you want to create new objects in the database, you can use a script that uses data from [GitHub](https://github.com/) and takes one parameter: a link to a json file. This script collects the location data from the json file and creates a new object in the database.
    
    ```
-   python manage.py load_place username/project_name folder_name
+   python manage.py load_place  https://raw.githubusercontent.com/devmanorg/where-to-go-places/master/places/%D0%90%D0%BD%D1%82%D0%B8%D0%BA%D0%B0%D1%84%D0%B5%20Bizone.json
    ```
 
    Example json file:
