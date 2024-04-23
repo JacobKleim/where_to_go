@@ -20,6 +20,7 @@ class ImageInline(SortableStackedInline):
 
     readonly_fields = ['get_preview']
     fields = ['place', 'image', 'get_preview', 'number']
+    select_related = ['place']
 
     def get_preview(self, obj):
         if obj.image:
@@ -29,6 +30,11 @@ class ImageInline(SortableStackedInline):
 
         return format_html(
             '<span style="color:red;">Error: Image not found</span>')
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.select_related('place')
+        return queryset
 
 
 @admin.register(Place)

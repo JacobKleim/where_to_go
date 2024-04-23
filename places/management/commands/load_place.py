@@ -1,7 +1,9 @@
 import os
 import requests
-from django.conf import settings
+
+from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
+
 from places.models import Place, Image
 
 
@@ -23,46 +25,47 @@ class Command(BaseCommand):
                                  f'from GitHub API: {url}'))
             return
 
-        media_folder = os.path.join(settings.MEDIA_ROOT)
-        os.makedirs(media_folder, exist_ok=True)
-
         if response.status_code != 200:
             self.stdout.write(
                 self.style.ERROR(f'Failed to load data '
                                  f'from URL: {url}'))
 
         try:
-            place_data = response.json()
+            raw_place = response.json()
             place, created = Place.objects.get_or_create(
-                title=place_data['title'],
-                short_description=place_data['description_short'],
-                long_description=place_data['description_long'],
-                lng=place_data['coordinates']['lng'],
-                lat=place_data['coordinates']['lat']
+                lng=raw_place['coordinates']['lng'],
+                lat=raw_place['coordinates']['lat'],
+                defaults={
+                    'title': raw_place['title'],
+                    'short_description': raw_place['description_short'],
+                    'long_description': raw_place['description_long']
+                }
             )
 
-            image_urls = place_data.get('imgs', [])
+            image_urls = raw_place.get('imgs', [])
             for number, image_url in enumerate(image_urls, start=1):
                 response = requests.get(image_url)
-                if response.status_code != 200:
+                image_filename = os.path.basename(image_url)
+
+                existing_image = Image.objects.filter(
+                    place=place,
+                    image=image_filename).first()
+
+                if existing_image:
                     self.stdout.write(
                         self.style.WARNING(
-                            f'Image file not found '
-                            f'for place {place.title}'))
+                            f'Image {image_filename} already '
+                            f'exists for place {place.title}. Skipping...'
+                        )
+                    )
                     continue
-
-                image_filename = os.path.basename(image_url)
-                image_path = os.path.join(media_folder, image_filename)
-
-                with open(image_path, 'wb') as image_file:
-                    image_file.write(response.content)
 
                 image = Image.objects.create(
                     place=place,
                     number=number
                 )
-                image.image.name = os.path.join(image_filename)
-                image.save()
+
+                image.image.save(image_filename, ContentFile(response.content))
 
                 self.stdout.write(
                     self.style.SUCCESS(
