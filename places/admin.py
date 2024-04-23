@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Place, Image
-
 from adminsortable2.admin import SortableAdminMixin, SortableStackedInline
+
+from .models import Place, Image
 
 
 MAX_WIDTH = 200
@@ -20,7 +20,6 @@ class ImageInline(SortableStackedInline):
 
     readonly_fields = ['get_preview']
     fields = ['place', 'image', 'get_preview', 'number']
-    select_related = ['place']
 
     def get_preview(self, obj):
         if obj.image:
