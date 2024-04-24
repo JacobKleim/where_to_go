@@ -31,9 +31,7 @@ class ImageInline(SortableStackedInline):
             '<span style="color:red;">Error: Image not found</span>')
 
     def get_queryset(self, request):
-        queryset = super().get_queryset(request)
-        queryset = queryset.select_related('place')
-        return queryset
+        return super().get_queryset(request).select_related('place')
 
 
 @admin.register(Place)

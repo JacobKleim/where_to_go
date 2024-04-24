@@ -21,14 +21,9 @@ class Command(BaseCommand):
         response = requests.get(url)
         if response.status_code != 200:
             self.stdout.write(
-                self.style.ERROR(f'Failed to fetch files '
+                self.style.ERROR(f'Failed to fetch file '
                                  f'from GitHub API: {url}'))
             return
-
-        if response.status_code != 200:
-            self.stdout.write(
-                self.style.ERROR(f'Failed to load data '
-                                 f'from URL: {url}'))
 
         try:
             raw_place = response.json()
@@ -60,12 +55,11 @@ class Command(BaseCommand):
                     )
                     continue
 
-                image = Image.objects.create(
+                Image.objects.create(
                     place=place,
-                    number=number
+                    number=number,
+                    image=ContentFile(response.content, image_filename)
                 )
-
-                image.image.save(image_filename, ContentFile(response.content))
 
                 self.stdout.write(
                     self.style.SUCCESS(
